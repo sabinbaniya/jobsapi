@@ -1,17 +1,13 @@
-const login = async (req, res) => {
-  res.send("login");
-};
-
-const register = async (req, res) => {
-  res.send("register");
-};
-
 const createJob = async (req, res) => {
   res.send("createJob");
 };
 
 const getAllJobs = async (req, res) => {
   res.send("getAllJobs");
+};
+
+const getSingleJob = async (req, res) => {
+  res.send("getSingleJob");
 };
 
 const updateJob = async (req, res) => {
@@ -23,8 +19,7 @@ const deleteJob = async (req, res) => {
 };
 
 module.exports = {
-  login,
-  register,
+  getSingleJob,
   getAllJobs,
   createJob,
   updateJob,

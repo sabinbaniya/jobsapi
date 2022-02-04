@@ -3,9 +3,13 @@ const connectDB = require("./DB/connectDB");
 const app = express();
 require("dotenv").config();
 
-const router = require("./routes/routes");
+const jobsRouter = require("./Routes/jobs");
+const authRouter = require("./Routes/auth");
 
-app.use(router);
+app.use(express.json());
+
+app.use("/api/v1/jobs", jobsRouter);
+app.use("/api/v1/auth", authRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello");
