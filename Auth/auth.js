@@ -13,13 +13,13 @@ const login = async (req, res) => {
 const register = async (req, res) => {
   const { email, password, name } = req.body;
 
-  await UserModel.create({
+  const user = await UserModel.create({
     name,
     email,
     password,
   });
 
-  res.status(StatusCodes.CREATED).json({ name });
+  res.json({ user });
 };
 
 module.exports = { login, register };
