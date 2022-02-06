@@ -2,6 +2,7 @@ const { StatusCodes } = require("http-status-codes");
 
 const Job = require("../Models/JobsModel");
 const BadRequestError = require("../Errors/BadRequestError");
+const { isValidObjectId } = require("mongoose");
 
 const createJob = async (req, res) => {
   const { userId, company, position } = req.body;
@@ -33,13 +34,16 @@ const getAllJobs = async (req, res) => {
     throw new BadRequestError("Please provide a user id");
   }
 
-  const jobs = await Job.find({ createdBy: userId });
+  const jobs = await Job.find({ createdBy: userId }).sort(Job.createdAt);
 
   res.status(StatusCodes.OK).json({ jobs });
 };
 
 const getSingleJob = async (req, res) => {
-  res.send("getSingleJob");
+  const { id } = req.params;
+  const { userId, name } = req.body.user;
+
+  console.log(userId, name);
 };
 
 const updateJob = async (req, res) => {
