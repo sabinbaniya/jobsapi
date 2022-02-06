@@ -73,7 +73,20 @@ const updateJob = async (req, res) => {
 };
 
 const deleteJob = async (req, res) => {
-  res.send("deleteJob");
+  const { id } = req.params;
+
+  const { userId } = req.body.user;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    throw new BadRequestError("Please provide valid job id");
+  }
+
+  const deletedJob = await Job.findOneAndDelete({
+    _id: id,
+    createdBy: userId,
+  });
+
+  res.status(StatusCodes.OK).json({ deletedJob });
 };
 
 module.exports = {
