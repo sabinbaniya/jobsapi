@@ -4,16 +4,11 @@ const Job = require("../Models/JobsModel");
 const BadRequestError = require("../Errors/BadRequestError");
 
 const createJob = async (req, res) => {
-  const { userId, company, position } = req.body;
+  const { company, position } = req.body;
 
-  if (
-    !userId ||
-    !company ||
-    !position ||
-    userId === "" ||
-    company === "" ||
-    position === ""
-  ) {
+  const { userId } = req.body;
+
+  if (!company || !position || company === "" || position === "") {
     throw new BadRequestError("Please provide a user id");
   }
 
@@ -27,7 +22,7 @@ const createJob = async (req, res) => {
 };
 
 const getAllJobs = async (req, res) => {
-  const { userId } = req.body;
+  const { userId } = req.body.user;
 
   if (!userId || userId === "") {
     throw new BadRequestError("Please provide a user id");
@@ -42,9 +37,9 @@ const getSingleJob = async (req, res) => {
   const { id } = req.params;
   const { userId, name } = req.body.user;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    throw new BadRequestError("Please provide valid job id");
-  }
+  // if (!mongoose.Types.ObjectId.isValid(id)) {
+  //   throw new BadRequestError("Please provide valid job id");
+  // }
 
   const job = await Job.findOne({ _id: id, createdBy: userId });
 
@@ -55,9 +50,9 @@ const updateJob = async (req, res) => {
   const { id } = req.params;
   const { userId } = req.body.user;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    throw new BadRequestError("Please provide valid job id");
-  }
+  // if (!mongoose.Types.ObjectId.isValid(id)) {
+  //   throw new BadRequestError("Please provide valid job id");
+  // }
 
   const updatedJob = await Job.findOneAndUpdate(
     { _id: id, createdBy: userId },
@@ -76,10 +71,6 @@ const deleteJob = async (req, res) => {
   const { id } = req.params;
 
   const { userId } = req.body.user;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    throw new BadRequestError("Please provide valid job id");
-  }
 
   const deletedJob = await Job.findOneAndDelete({
     _id: id,
